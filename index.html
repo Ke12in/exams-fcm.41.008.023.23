@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My Dream Villa</title>
+    <script src="./script/aframe.min.js"></script>
+    <script>
+      // Add model loading error handling
+      AFRAME.registerComponent('model-error', {
+        init: function () {
+          const el = this.el;
+          el.addEventListener('model-error', function (e) {
+            console.error('Model failed to load:', e.detail.src);
+          });
+        }
+      });
+
+      // Log loaded assets
+      window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded');
+        
+        // Add visibility listener to scene
+        document.querySelector('a-scene').addEventListener('loaded', function () {
+          console.log('A-Frame scene loaded');
+          
+          // Log all asset items
+          const assets = document.querySelectorAll('a-asset-item');
+          console.log(`Found ${assets.length} asset items`);
+          
+          assets.forEach((asset, index) => {
+            console.log(`Asset ${index}: ${asset.id} - ${asset.getAttribute('src')}`);
+            
+            // Add load listeners to all assets
+            asset.addEventListener('loaded', function() {
+              console.log(`Asset loaded: ${asset.id}`);
+            });
+            
+            asset.addEventListener('error', function(err) {
+              console.error(`Asset failed to load: ${asset.id}`, err);
+            });
+          });
+        });
+      });
+    </script>
+  </head>
+  <body>
+
+    <a-scene debug stats>
+      <a-assets timeout="30000">
+        <!-- Models -->
+        <a-asset-item id="Villa" src="./models/villa_by_the_sea.glb" response-type="arraybuffer"></a-asset-item>
+        <a-asset-item id="mysteryModel" src="./models/2f9986e6ba4345fdabf71ed43c1086dd.glb" response-type="arraybuffer"></a-asset-item>
+        <a-asset-item id="carModel" src="./models/free_porsche_911_carrera_4s.glb" response-type="arraybuffer"></a-asset-item>
+        <a-asset-item id="gate" src="./models/simple_spooky_gate.glb" response-type="arraybuffer"></a-asset-item>
+        <a-asset-item id="garden" src="./models/garden_cement_fence_wall_building.glb" response-type="arraybuffer"></a-asset-item>
+        <a-asset-item id="pool" src="./models/swimming_pool.glb" response-type="arraybuffer"></a-asset-item>
+       
+        
+        <!-- Textures -->
+        <img id="bark" src="./textures/sugar_maple_bark.jpeg">
+        <img id="leaf" src="./textures/sugar_maple_leaf.png">
+        <img id="leaf-inline" src="./textures/sugar_maple_leaf.inline_conv_generated.png">
+        <img id="grass-texture" src="./textures/grass.jpeg">
+      </a-assets>    
+      
+    
+      <!-- Environment -->
+       <!--Sky-->
+      <a-sky color="#001337"></a-sky>
+      <a-plane position="0 0 0" rotation="-90 0 0" width="1000" height="1000" src="./textures/grass.jpeg" repeat="190 190"></a-plane>
+      
+      <!-- Gate and Fence -->
+      <a-entity position="0 0 0">
+        <!-- Main Gate -->
+        <a-entity gltf-model="#gate" position="-9.5 0 15" scale="2 2 2" rotation="0 90 0" model-error></a-entity>
+        
+        <!-- Front Fence Walls -->
+        <a-entity gltf-model="#garden" position="-16.4 0 15" scale="2 2 2" rotation="0 180 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="15.8 0 15" scale="2 2 2" rotation="0 180 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="31.5 0 15" scale="2 2 2" rotation="0 180 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="43.5 0 15" scale="1.5 2 2" rotation="0 180 0" model-error></a-entity>
+        
+        <!-- Left Side Fence Walls -->
+        <a-entity gltf-model="#garden" position="-30.3 0 13.3" scale="2 2 2" rotation="0 90 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="-30.3 0 -2.5" scale="2 2 2" rotation="0 90 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="-30.3 0 -10" scale="2 2 2" rotation="0 90 0" model-error></a-entity>
+        
+        <!-- Right Side Fence Walls -->
+        <a-entity gltf-model="#garden" position="44.6 0 0" scale="2 2 2" rotation="0 -90 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="44.5 0 -15" scale="2 2 2" rotation="0 -90 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="44.4 0 -24" scale="0.9 2 2" rotation="0 -90 0" model-error></a-entity>
+        
+        <!-- Back Fence Walls -->
+        <a-entity gltf-model="#garden" position="3 0 -24.5" scale="2 2 2" rotation="0 0 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="-28.8 0 -24.5" scale="2 2 2" rotation="0 0 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="-13 0 -24.5" scale="2 2 2" rotation="0 0 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="16 0 -24.5" scale="2 2 2" rotation="0 0 0" model-error></a-entity>
+        <a-entity gltf-model="#garden" position="30 0 -24.5" scale="2 2 2" rotation="0 0 0" model-error></a-entity>
+      </a-entity>
+      
+      
+        <!-- Main Villa Model (3D Model) -->
+        <a-entity gltf-model="#Villa" position="20 0.9 -15" scale="2 2 2" rotation="0 180 0" model-error></a-entity>
+  
+        <!--Pool-->
+        <a-entity gltf-model="#pool" position="-7 0 -4" scale="0.04 0.04 0.04" rotation="0 0 0" model-error></a-entity>
+        
+        <!-- Car -->
+        <a-entity gltf-model="#carModel" position="0 1 10" scale="1 1 1" rotation="0 90 0" model-error></a-entity>
+        
+        <!-- Mystery Model (Dog?) -->
+        <a-entity gltf-model="#mysteryModel" position="5 1 0" scale="1 1 1" rotation="0 -45 0" model-error></a-entity>
+  
+        <!-- Main Building (Primitive Shapes) -->
+        <a-entity position="-15 0 0">
+          <!-- Exterior -->
+          <a-box position="0 2 0" width="12" height="4" depth="8" material="color: #fff5e6">
+            <!-- Modern Sloped Roof -->
+            <a-entity position="0 2 0">
+              <!-- Left Roof Slope -->
+              <a-box position="-3 0.75 0" width="6" height="0.2" depth="9" color="#2c2c2c" rotation="0 0 15"></a-box>
+              <!-- Right Roof Slope -->
+              <a-box position="3 0.75 0" width="6" height="0.2" depth="9" color="#2c2c2c" rotation="0 0 -15"></a-box>
+              <!-- Center Ridge -->
+              <a-box position="0 1.5 0" width="0.5" height="0.3" depth="9" color="#2c2c2c"></a-box>
+              <!-- Front Overhang -->
+              <a-box position="0 0.2 4.6" width="13" height="0.2" depth="0.4" color="#2c2c2c"></a-box>
+              <!-- Back Overhang -->
+              <a-box position="0 0.2 -4.6" width="13" height="0.2" depth="0.4" color="#2c2c2c"></a-box>
+            </a-entity>
+          </a-box>
+  
+  
+          <!-- Bedroom -->
+          <a-entity position="4 0 0">
+              <!-- Floor -->
+              <a-box position="0 0 0" width="4" height="0.1" depth="4" color="#4169E1"></a-box>
+            <!-- Bed -->
+            <a-box position="0 0.3 0" width="2" height="0.4" depth="3" color="#4169E1"></a-box>
+            <!-- Nightstand -->
+            <a-box position="1.5 0.4 0" width="0.5" height="0.8" depth="0.5" color="#8B4513"></a-box>
+          </a-entity>
+  
+          <!-- Windows -->
+            <a-box position="0 2 4.1" width="8" height="2" depth="0.1" material="color: #87CEEB; opacity: 0.7"></a-box>
+  
+            <!-- Pathway -->
+            <a-entity position="0 0.01 0">
+              <!-- Main path -->
+              <a-box width="3" height="0.1" depth="12" color="#8B4513" position="0 0 4">
+                <a-box width="0.2" height="0.15" depth="12" color="#8B7355" position="-1.6 0 0"></a-box>
+                <a-box width="0.2" height="0.15" depth="12" color="#8B7355" position="1.6 0 0"></a-box>
+              </a-box>
+            </a-entity>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+  
+      <!-- Decorative Trees (Primitive Shapes) -->
+      <a-entity>
+        <!-- Tree 1 -->
+        <a-cylinder position="-25 0.5 -4" radius="0.3" height="2.5" src="./textures/sugar_maple_bark.jpeg"></a-cylinder> 
+        <a-sphere position="-25 2.8 -4" radius="1.2" src="./textures/sugar_maple_leaf.png"></a-sphere>
+  
+        <!-- Tree 2 -->
+        <a-cylinder position="31 0.5 3.1" radius="0.3" height="2.5" src="./textures/sugar_maple_bark.jpeg"></a-cylinder> 
+        <a-sphere position="31 2.8 3" radius="1.2" src="./textures/sugar_maple_leaf.png"></a-sphere>
+      </a-entity>
+  
+      <!-- Lighting -->
+      <a-light type="ambient" intensity="0.5"></a-light>
+      <a-light type="directional" position="-1 1 -1" intensity="0.8"></a-light>
+      <a-light type="point" color="#ffffff" intensity="0.5" position="0 3 0"></a-light>
+  
+        <!-- Camera & Controls -->
+      <a-entity position="-1 1 20">
+          <a-camera wasd-controls look-controls></a-camera>
+        </a-entity>
+      </a-scene>
+    </body>
+  </html>
